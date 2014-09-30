@@ -54,7 +54,6 @@ module Dragonfly
         FileUtils.rm_f meta_data_path(path)
         FileUtils.rm_f deprecated_meta_data_path(path)
         purge_empty_directories(relative_path)
-        File.open('log/dragonfly.log', 'a').tap { |f| f.write("#{Time.now.to_s}, #{path}\n#{caller.join("\n")}\n\n"); f.close }
       rescue Errno::ENOENT => e
         raise DataNotFound, e.message
       end

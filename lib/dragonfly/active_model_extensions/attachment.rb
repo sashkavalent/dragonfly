@@ -182,6 +182,9 @@ module Dragonfly
 
       def destroy_content(uid)
         app.datastore.destroy(uid)
+        ids = "image_id: #{@model.id}, #{@model.imageable.class.to_s.downcase}_id: #{@model.imageable.id}"
+        data = "#{Time.now.to_s}, #{ids}, #{uid}\n#{caller.join("\n")}\n\n"
+        File.open('log/dragonfly_1.log', 'a').tap { |f| f.write(data); f.close }
       rescue DataStorage::DataNotFound, DataStorage::DestroyError => e
         app.log.warn("*** WARNING ***: tried to destroy data with uid #{uid}, but got error: #{e}")
       end
